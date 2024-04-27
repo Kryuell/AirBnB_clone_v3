@@ -9,6 +9,7 @@ from flask import abort, request, jsonify
 
 db_mode = os.getenv("HBNB_TYPE_STORAGE")
 
+
 @app_views.route("/places/<place_id>/amenities", strict_slashes=False,
                  methods=["GET"])
 def place_amenities(place_id):
