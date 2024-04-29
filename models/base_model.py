@@ -52,7 +52,7 @@ class BaseModel:
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
                                          self.__dict__)
 
-    def save(self ,save_to_file=False):
+    def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
         self.updated_at = datetime.utcnow()
         models.storage.new(self)
@@ -68,11 +68,7 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        if save_to_file is False:
-            if "password" in new_dict:
-                del new_dict["password"]
         return new_dict
-        
 
     def delete(self):
         """delete the current instance from the storage"""

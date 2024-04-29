@@ -62,18 +62,8 @@ def update_user(user_id):
     data = request.get_json(force=True, silent=True)
     if not data:
         abort(400, "Not a JSON")
-    
-    # Exclude keys that shouldn't be updated
-    ignore_keys = ["id", "email", "created_at", "updated_at"]
-    
-    # Update user attributes
-    for key, value in data.items():
-        if key not in ignore_keys:
-            if key == "password":  # Hash the password if it's being updated
-                hashed_password = hashlib.md5(data[key].encode()).hexdigest()
-                setattr(obj, key, hashed_password)
-            else:
-                setattr(obj, key, value)
-
+    obj.password = data.get("password", obj.password)
+    obj.first_name = data.get("first_name", obj.first_name)
+    obj.last_name = data.get("last_name", obj.last_name)
     obj.save()
     return jsonify(obj.to_dict()), 200
